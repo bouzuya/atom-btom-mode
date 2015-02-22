@@ -14,18 +14,18 @@ module.exports = BtomMode =
   activate: ->
     @subscriptions = new CompositeDisposable
     @modes = atom.config.get('btom-mode.modes')
-    @_initialize @modes
+    @initialize @modes
 
   deactivate: ->
     @subscriptions.dispose()
     @removeClasses @modes
 
-  _initialize: (modes) ->
+  initialize: (modes) ->
     return if modes.length is 0
     @addCommands modes
-    @_switch modes[0]
+    @switch modes[0]
 
-  _switch: (mode) ->
+  switch: (mode) ->
     return unless mode in @modes
     @removeClasses @modes
     @addClass mode
