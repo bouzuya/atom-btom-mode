@@ -22,13 +22,7 @@ module.exports = BtomMode =
 
   _initialize: (modes) ->
     return if modes.length is 0
-
-    # initialize commands
-    atom.commands.add 'atom-workspace', modes.reduce (commands, i) =>
-      commands["btom-mode:switch-#{i}"] = => @_switch i
-      commands
-    , {}
-
+    @addCommands modes
     @_switch modes[0]
 
   _switch: (mode) ->
@@ -43,3 +37,9 @@ module.exports = BtomMode =
   addClass: (mode) ->
     workspaceElement = atom.views.getView atom.workspace
     workspaceElement.classList.add 'btom-mode-' + mode
+
+  addCommands: (modes) ->
+    atom.commands.add 'atom-workspace', modes.reduce (commands, i) =>
+      commands["btom-mode:switch-#{i}"] = => @_switch i
+      commands
+    , {}
