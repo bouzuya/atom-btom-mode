@@ -5,15 +5,15 @@ BtomMode = require '../lib/btom-mode'
 # To run a specific `it` or `describe` block add an `f` to the front (e.g. `fit`
 # or `fdescribe`). Remove the `f` to unfocus the block.
 
-describe "BtomMode", ->
+describe 'BtomMode', ->
   [workspaceElement, activationPromise] = []
 
   beforeEach ->
     workspaceElement = atom.views.getView(atom.workspace)
     activationPromise = atom.packages.activatePackage('btom-mode')
 
-  describe "when the btom-mode:toggle event is triggered", ->
-    it "hides and shows the modal panel", ->
+  describe 'when the btom-mode:toggle event is triggered', ->
+    it 'hides and shows the modal panel', ->
       # Before the activation event the view is not on the DOM, and no panel
       # has been created
       expect(workspaceElement.querySelector('.btom-mode')).not.toExist()
@@ -36,7 +36,7 @@ describe "BtomMode", ->
         atom.commands.dispatch workspaceElement, 'btom-mode:toggle'
         expect(btomModePanel.isVisible()).toBe false
 
-    it "hides and shows the view", ->
+    it 'hides and shows the view', ->
       # This test shows you an integration test testing at the view level.
 
       # Attaching the workspaceElement to the DOM is required to allow the
