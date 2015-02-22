@@ -9,7 +9,6 @@ module.exports = BtomMode =
       items:
         type: 'string'
 
-  active: false
   btomModeView: null
   modalPanel: null
   subscriptions: null
@@ -21,29 +20,18 @@ module.exports = BtomMode =
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
 
-    # Register command that toggles this view
-    @subscriptions.add atom.commands.add 'atom-workspace', 'btom-mode:toggle': => @toggle()
+    modes = atom.config.get('btom-mode.modes')
+    workspaceElement = atom.views.getView atom.workspace
+    workspaceElement.classList.add 'btom-mode-' + mode for mode in modes
 
   deactivate: ->
     @modalPanel.destroy()
     @subscriptions.dispose()
     @btomModeView.destroy()
 
-  serialize: ->
-    btomModeViewState: @btomModeView.serialize()
-
-  toggle: ->
     modes = atom.config.get('btom-mode.modes')
     workspaceElement = atom.views.getView atom.workspace
-    if @active
-      for mode in modes
-        workspaceElement.classList.add 'btom-mode-' + mode
-    else
-      for mode in modes
-        workspaceElement.classList.remove 'btom-mode-' + mode
-    @active = !@active
+    workspaceElement.classList.remove 'btom-mode-' + mode for mode in modes
 
-    if @modalPanel.isVisible()
-      @modalPanel.hide()
-    else
-      @modalPanel.show()
+  serialize: ->
+    btomModeViewState: @btomModeView.serialize()

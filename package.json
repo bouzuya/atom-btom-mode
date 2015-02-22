@@ -3,9 +3,6 @@
   "main": "./lib/btom-mode",
   "version": "0.0.0",
   "description": "A short description of your package",
-  "activationCommands": {
-    "atom-workspace": "btom-mode:toggle"
-  },
   "repository": "https://github.com/atom/btom-mode",
   "license": "MIT",
   "engines": {
