@@ -11,11 +11,18 @@ module.exports = BtomMode =
   subscriptions: null
 
   activate: ->
-    # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
 
     modes = atom.config.get('btom-mode.modes')
     return if modes.length is 0
+
+    # initialize commands
+    atom.commands.add 'atom-workspace', modes.reduce (commands, i) =>
+      commands["btom-mode:switch-#{i}"] = => @switch i
+      commands
+    , {}
+
+    # initialize class
     workspaceElement = atom.views.getView atom.workspace
     workspaceElement.classList.add 'btom-mode-' + modes[0]
 
@@ -26,3 +33,6 @@ module.exports = BtomMode =
     modes = atom.config.get('btom-mode.modes')
     workspaceElement = atom.views.getView atom.workspace
     workspaceElement.classList.remove 'btom-mode-' + mode for mode in modes
+
+  switch: (mode) ->
+    # TODO
