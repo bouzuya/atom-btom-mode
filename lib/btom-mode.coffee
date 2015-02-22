@@ -18,7 +18,7 @@ module.exports = BtomMode =
 
   deactivate: ->
     @subscriptions.dispose()
-    @_removeAll()
+    @removeClasses @modes
 
   _initialize: (modes) ->
     return if modes.length is 0
@@ -33,10 +33,10 @@ module.exports = BtomMode =
 
   _switch: (mode) ->
     return unless mode in @modes
-    @_removeAll @modes
+    @removeClasses @modes
     workspaceElement = atom.views.getView atom.workspace
     workspaceElement.classList.add 'btom-mode-' + mode
 
-  _removeAll: (modes) ->
+  removeClasses: (modes) ->
     workspaceElement = atom.views.getView atom.workspace
     workspaceElement.classList.remove 'btom-mode-' + mode for mode in modes
