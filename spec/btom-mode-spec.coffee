@@ -1,10 +1,5 @@
 BtomMode = require '../lib/btom-mode'
 
-# Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
-#
-# To run a specific `it` or `describe` block add an `f` to the front (e.g. `fit`
-# or `fdescribe`). Remove the `f` to unfocus the block.
-
 describe 'BtomMode', ->
   describe 'when atom.config is default', ->
     it 'should not have "btom-mode-normal" class', ->
@@ -26,6 +21,5 @@ describe 'BtomMode', ->
         atom.packages.activatePackage('btom-mode')
       runs ->
         workspaceElement = atom.views.getView(atom.workspace)
-        # expect(atom.config.get('btom-mode.modes')).toBe('')
         expect('btom-mode-normal' in workspaceElement.classList).toBe(true)
         expect('btom-mode-insert' in workspaceElement.classList).toBe(true)
