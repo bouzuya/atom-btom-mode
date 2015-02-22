@@ -12,18 +12,24 @@ module.exports = BtomMode =
   subscriptions: null
 
   activate: ->
+    configKey = 'btom-mode.modes'
     @subscriptions = new CompositeDisposable
-    @modes = atom.config.get('btom-mode.modes')
-    @initialize @modes
+    @subscriptions.add atom.config.onDidChange configKey, @change.bind @
+    @initialize atom.config.get configKey
 
   deactivate: ->
     @subscriptions.dispose()
     @finalize @modes
 
+  change: ({ newValue }) ->
+    @finalize @modes
+    @initialize newValue
+
   initialize: (modes) ->
-    return if modes.length is 0
-    @addCommands modes
-    @switch modes[0]
+    @modes = modes
+    return if @modes.length is 0
+    @addCommands @modes
+    @switch @modes[0]
 
   finalize: (modes) ->
     @removeClasses modes
@@ -43,6 +49,6 @@ module.exports = BtomMode =
 
   addCommands: (modes) ->
     atom.commands.add 'atom-workspace', modes.reduce (commands, i) =>
-      commands["btom-mode:switch-#{i}"] = => @_switch i
+      commands["btom-mode:switch-#{i}"] = => @switch i
       commands
     , {}
