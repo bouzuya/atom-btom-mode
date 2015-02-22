@@ -18,18 +18,18 @@ module.exports = BtomMode =
 
     # initialize commands
     atom.commands.add 'atom-workspace', modes.reduce (commands, i) =>
-      commands["btom-mode:switch-#{i}"] = => @switch i
+      commands["btom-mode:switch-#{i}"] = => @_switch i
       commands
     , {}
 
-    @switch modes[0]
+    @_switch modes[0]
 
   deactivate: ->
     @modalPanel.destroy()
     @subscriptions.dispose()
     @_removeAll()
 
-  switch: (mode) ->
+  _switch: (mode) ->
     modes = atom.config.get('btom-mode.modes')
     return unless mode in modes
     @_removeAll()
