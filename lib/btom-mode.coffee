@@ -18,12 +18,15 @@ module.exports = BtomMode =
 
   deactivate: ->
     @subscriptions.dispose()
-    @removeClasses @modes
+    @finalize @modes
 
   initialize: (modes) ->
     return if modes.length is 0
     @addCommands modes
     @switch modes[0]
+
+  finalize: (modes) ->
+    @removeClasses modes
 
   switch: (mode) ->
     return unless mode in @modes
