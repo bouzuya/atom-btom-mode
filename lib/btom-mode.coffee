@@ -2,6 +2,13 @@ BtomModeView = require './btom-mode-view'
 {CompositeDisposable} = require 'atom'
 
 module.exports = BtomMode =
+  config:
+    modes:
+      type: 'array'
+      default: []
+      items:
+        type: 'string'
+
   btomModeView: null
   modalPanel: null
   subscriptions: null
@@ -26,6 +33,11 @@ module.exports = BtomMode =
 
   toggle: ->
     console.log 'BtomMode was toggled!'
+
+    modes = atom.config.get('btom-mode.modes')
+    workspaceElement = atom.views.getView atom.workspace
+    for mode in modes
+      workspaceElement.classList.add 'btom-mode-' + mode
 
     if @modalPanel.isVisible()
       @modalPanel.hide()

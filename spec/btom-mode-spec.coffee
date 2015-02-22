@@ -12,6 +12,32 @@ describe 'BtomMode', ->
     workspaceElement = atom.views.getView(atom.workspace)
     activationPromise = atom.packages.activatePackage('btom-mode')
 
+  describe 'modes', ->
+    modes = null
+
+    beforeEach ->
+      modes = ['normal', 'insert']
+
+    describe 'when atom.config is default', ->
+      it 'should not have "btom-mode-normal" class', ->
+        atom.commands.dispatch workspaceElement, 'btom-mode:toggle'
+        waitsForPromise ->
+          activationPromise
+        runs ->
+          expect('btom-mode-normal' in workspaceElement.classList).toBe(false)
+
+    describe 'when atom.config.get("btom-mode.modes") is not empty', ->
+      beforeEach ->
+        atom.config.set('btom-mode.modes', modes)
+
+      it 'should have "btom-mode-normal" class', ->
+        atom.commands.dispatch workspaceElement, 'btom-mode:toggle'
+        waitsForPromise ->
+          activationPromise
+        runs ->
+          expect('btom-mode-normal' in workspaceElement.classList).toBe(true)
+          expect('btom-mode-insert' in workspaceElement.classList).toBe(true)
+
   describe 'when the btom-mode:toggle event is triggered', ->
     it 'hides and shows the modal panel', ->
       # Before the activation event the view is not on the DOM, and no panel
