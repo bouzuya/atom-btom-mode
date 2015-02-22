@@ -9,6 +9,7 @@ module.exports = BtomMode =
       items:
         type: 'string'
 
+  active: false
   btomModeView: null
   modalPanel: null
   subscriptions: null
@@ -32,12 +33,15 @@ module.exports = BtomMode =
     btomModeViewState: @btomModeView.serialize()
 
   toggle: ->
-    console.log 'BtomMode was toggled!'
-
     modes = atom.config.get('btom-mode.modes')
     workspaceElement = atom.views.getView atom.workspace
-    for mode in modes
-      workspaceElement.classList.add 'btom-mode-' + mode
+    if @active
+      for mode in modes
+        workspaceElement.classList.add 'btom-mode-' + mode
+    else
+      for mode in modes
+        workspaceElement.classList.remove 'btom-mode-' + mode
+    @active = !@active
 
     if @modalPanel.isVisible()
       @modalPanel.hide()

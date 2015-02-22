@@ -25,18 +25,35 @@ describe 'BtomMode', ->
           activationPromise
         runs ->
           expect('btom-mode-normal' in workspaceElement.classList).toBe(false)
+          expect('btom-mode-insert' in workspaceElement.classList).toBe(false)
 
     describe 'when atom.config.get("btom-mode.modes") is not empty', ->
       beforeEach ->
         atom.config.set('btom-mode.modes', modes)
 
       it 'should have "btom-mode-normal" class', ->
+        expect('btom-mode-normal' in workspaceElement.classList).toBe(false)
+        expect('btom-mode-insert' in workspaceElement.classList).toBe(false)
         atom.commands.dispatch workspaceElement, 'btom-mode:toggle'
         waitsForPromise ->
           activationPromise
         runs ->
           expect('btom-mode-normal' in workspaceElement.classList).toBe(true)
           expect('btom-mode-insert' in workspaceElement.classList).toBe(true)
+
+      it 'should be able to toggle classes', ->
+        expect('btom-mode-normal' in workspaceElement.classList).toBe(false)
+        expect('btom-mode-insert' in workspaceElement.classList).toBe(false)
+        atom.commands.dispatch workspaceElement, 'btom-mode:toggle'
+        waitsForPromise ->
+          activationPromise
+        runs ->
+          expect('btom-mode-normal' in workspaceElement.classList).toBe(false)
+          expect('btom-mode-insert' in workspaceElement.classList).toBe(false)
+          atom.commands.dispatch workspaceElement, 'btom-mode:toggle'
+          expect('btom-mode-normal' in workspaceElement.classList).toBe(true)
+          expect('btom-mode-insert' in workspaceElement.classList).toBe(true)
+
 
   describe 'when the btom-mode:toggle event is triggered', ->
     it 'hides and shows the modal panel', ->
