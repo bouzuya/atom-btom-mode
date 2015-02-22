@@ -12,7 +12,13 @@ module.exports = BtomMode =
 
   activate: ->
     @subscriptions = new CompositeDisposable
+    @_initialize()
 
+  deactivate: ->
+    @subscriptions.dispose()
+    @_removeAll()
+
+  _initialize: ->
     modes = atom.config.get('btom-mode.modes')
     return if modes.length is 0
 
@@ -23,11 +29,6 @@ module.exports = BtomMode =
     , {}
 
     @_switch modes[0]
-
-  deactivate: ->
-    @modalPanel.destroy()
-    @subscriptions.dispose()
-    @_removeAll()
 
   _switch: (mode) ->
     modes = atom.config.get('btom-mode.modes')
