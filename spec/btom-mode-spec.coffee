@@ -10,7 +10,6 @@ describe 'BtomMode', ->
       runs ->
         workspaceElement = atom.views.getView(atom.workspace)
         expect('btom-mode-normal' in workspaceElement.classList).toBe(false)
-        expect('btom-mode-insert' in workspaceElement.classList).toBe(false)
 
   describe 'when atom.config.get("btom-mode.modes") is not empty', ->
     it 'should have "btom-mode-normal" class', ->
@@ -48,3 +47,19 @@ describe 'BtomMode', ->
         commandNames = commands.map (i) -> i.name
         expect('btom-mode:switch-mode1' in commandNames).toBe(true)
         expect('btom-mode:switch-mode2' in commandNames).toBe(true)
+
+  describe 'switch', ->
+    it 'should switch current mode', ->
+      waitsForPromise ->
+        atom.config.set('btom-mode.modes', ['mode1', 'mode2'])
+        atom.workspace.open()
+      waitsForPromise ->
+        atom.packages.activatePackage('btom-mode')
+      runs ->
+
+        workspaceElement = atom.views.getView(atom.workspace)
+        expect('btom-mode-mode1' in workspaceElement.classList).toBe(true)
+        expect('btom-mode-mode2' in workspaceElement.classList).toBe(false)
+        atom.commands.dispatch workspaceElement, 'btom-mode:switch-mode2'
+        expect('btom-mode-mode1' in workspaceElement.classList).toBe(false)
+        expect('btom-mode-mode2' in workspaceElement.classList).toBe(true)

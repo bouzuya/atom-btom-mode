@@ -35,4 +35,8 @@ module.exports = BtomMode =
     workspaceElement.classList.remove 'btom-mode-' + mode for mode in modes
 
   switch: (mode) ->
-    # TODO
+    modes = atom.config.get('btom-mode.modes')
+    return unless mode in modes
+    workspaceElement = atom.views.getView atom.workspace
+    workspaceElement.classList.remove 'btom-mode-' + mode for mode in modes
+    workspaceElement.classList.add 'btom-mode-' + mode
