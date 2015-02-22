@@ -8,18 +8,19 @@ module.exports = BtomMode =
       items:
         type: 'string'
 
+  modes: []
   subscriptions: null
 
   activate: ->
     @subscriptions = new CompositeDisposable
-    @_initialize()
+    @modes = atom.config.get('btom-mode.modes')
+    @_initialize @modes
 
   deactivate: ->
     @subscriptions.dispose()
     @_removeAll()
 
-  _initialize: ->
-    modes = atom.config.get('btom-mode.modes')
+  _initialize: (modes) ->
     return if modes.length is 0
 
     # initialize commands
@@ -31,13 +32,11 @@ module.exports = BtomMode =
     @_switch modes[0]
 
   _switch: (mode) ->
-    modes = atom.config.get('btom-mode.modes')
-    return unless mode in modes
-    @_removeAll()
+    return unless mode in @modes
+    @_removeAll @modes
     workspaceElement = atom.views.getView atom.workspace
     workspaceElement.classList.add 'btom-mode-' + mode
 
-  _removeAll: ->
-    modes = atom.config.get('btom-mode.modes')
+  _removeAll: (modes) ->
     workspaceElement = atom.views.getView atom.workspace
     workspaceElement.classList.remove 'btom-mode-' + mode for mode in modes
