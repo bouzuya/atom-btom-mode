@@ -1,13 +1,12 @@
 {
   "name": "btom-mode",
-  "main": "./lib/btom-mode",
+  "description": "A mode controller for btom",
   "version": "0.0.0",
-  "description": "A short description of your package",
-  "repository": "https://github.com/atom/btom-mode",
-  "license": "MIT",
+  "dependencies": {},
   "engines": {
     "atom": ">=0.174.0 <2.0.0"
   },
-  "dependencies": {
-  }
+  "license": "MIT",
+  "main": "./lib/btom-mode",
+  "repository": "https://github.com/bouzuya/atom-btom-mode"
 }
