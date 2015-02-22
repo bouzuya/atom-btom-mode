@@ -15,8 +15,9 @@ module.exports = BtomMode =
     @subscriptions = new CompositeDisposable
 
     modes = atom.config.get('btom-mode.modes')
+    return if modes.length is 0
     workspaceElement = atom.views.getView atom.workspace
-    workspaceElement.classList.add 'btom-mode-' + mode for mode in modes
+    workspaceElement.classList.add 'btom-mode-' + modes[0]
 
   deactivate: ->
     @modalPanel.destroy()
