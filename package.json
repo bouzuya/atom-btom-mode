@@ -1,7 +1,7 @@
 {
   "name": "btom-mode",
   "description": "A mode controller for btom",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "dependencies": {},
   "engines": {
     "atom": ">=0.174.0 <2.0.0"
