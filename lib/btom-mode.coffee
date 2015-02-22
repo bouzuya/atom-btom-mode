@@ -22,21 +22,21 @@ module.exports = BtomMode =
       commands
     , {}
 
-    # initialize class
-    workspaceElement = atom.views.getView atom.workspace
-    workspaceElement.classList.add 'btom-mode-' + modes[0]
+    @switch modes[0]
 
   deactivate: ->
     @modalPanel.destroy()
     @subscriptions.dispose()
-
-    modes = atom.config.get('btom-mode.modes')
-    workspaceElement = atom.views.getView atom.workspace
-    workspaceElement.classList.remove 'btom-mode-' + mode for mode in modes
+    @_removeAll()
 
   switch: (mode) ->
     modes = atom.config.get('btom-mode.modes')
     return unless mode in modes
+    @_removeAll()
+    workspaceElement = atom.views.getView atom.workspace
+    workspaceElement.classList.add 'btom-mode-' + mode
+
+  _removeAll: ->
+    modes = atom.config.get('btom-mode.modes')
     workspaceElement = atom.views.getView atom.workspace
     workspaceElement.classList.remove 'btom-mode-' + mode for mode in modes
-    workspaceElement.classList.add 'btom-mode-' + mode
