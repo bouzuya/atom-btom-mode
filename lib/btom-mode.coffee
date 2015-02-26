@@ -23,40 +23,33 @@ module.exports = BtomMode =
     @subscriptions.dispose()
     @finalize @modes
 
-  # private
   addClass: (mode) ->
     workspaceElement = atom.views.getView atom.workspace
     workspaceElement.classList.add 'btom-mode-' + mode
 
-  # private
   addCommands: (modes) ->
     atom.commands.add 'atom-workspace', modes.reduce (commands, i) =>
       commands["btom-mode:switch-#{i}"] = => @switch i
       commands
     , {}
 
-  # private
   change: ({ newValue }) ->
     @finalize @modes
     @initialize newValue
 
-  # private
   finalize: (modes) ->
     @removeClasses modes
 
-  # private
   initialize: (modes) ->
     @modes = modes
     return if @modes.length is 0
     @addCommands @modes
     @switch @modes[0]
 
-  # private
   removeClasses: (modes) ->
     workspaceElement = atom.views.getView atom.workspace
     workspaceElement.classList.remove 'btom-mode-' + mode for mode in modes
 
-  # private
   switch: (mode) ->
     return unless mode in @modes
     @removeClasses @modes
