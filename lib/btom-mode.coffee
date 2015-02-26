@@ -28,7 +28,8 @@ module.exports = BtomMode =
     workspaceElement.classList.add 'btom-mode-' + mode
 
   addCommands: (modes) ->
-    atom.commands.add 'atom-workspace', modes.reduce (commands, i) =>
+    element = 'atom-workspace'
+    @subscriptions.add atom.commands.add element, modes.reduce (commands, i) =>
       commands["btom-mode:switch-#{i}"] = => @switch i
       commands
     , {}
